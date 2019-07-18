@@ -28,12 +28,13 @@ Hoge = Struct.new(:id, keyword_init: true)
 array1 = [Hoge.new(id: 1), Hoge.new(id: 2), Hoge.new(id: 3)]
 array2 = [Hoge.new(id: 2), Hoge.new(id: 3), Hoge.new(id: 4)]
 
-array1.full_join(array2) #=> [
-  [#<struct Hoge id=1>, nil]
-  [#<struct Hoge id=2>, #<struct Hoge id=2>]
-  [#<struct Hoge id=3>, #<struct Hoge id=3>]
-  [nil, #<struct Hoge id=4>]
-]
+array1.full_join(array2)
+#=> [
+#  [#<struct Hoge id=1>, nil]
+#  [#<struct Hoge id=2>, #<struct Hoge id=2>]
+#  [#<struct Hoge id=3>, #<struct Hoge id=3>]
+#  [nil, #<struct Hoge id=4>]
+#]
 ```
 
 also, like this
@@ -53,12 +54,13 @@ array2 = [
   Fuga.new(id: 103, name: "DDD")
 ]
 
-array1.full_join(array2, &:name) #=> [
-  [Hoge.new(id: 1, name: "AAA"), nil],
-  [Hoge.new(id: 2, name: "BBB"), Fuga.new(id: 101, name: "BBB")],
-  [Hoge.new(id: 3, name: "CCC"), Fuga.new(id: 102, name: "CCC")],
-  [nil, Fuga.new(id: 103, name: "DDD")]
-]
+array1.full_join(array2, &:name)
+#=> [
+#  [#<struct Hoge id=1, name="AAA">, nil],
+#  [#<struct Hoge id=2, name="BBB">, #<struct Fuga id=101, name="BBB">],
+#  [#<struct Hoge id=3, name="CCC">, #<struct Fuga id=102, name="CCC">],
+#  [nil, #<struct Fuga id=103, name="DDD">]
+#]
 ```
 
 ## Development
