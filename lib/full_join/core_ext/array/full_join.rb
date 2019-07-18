@@ -39,15 +39,14 @@ class Array
     block = ->(s) { s } unless block_given?
 
     results = each_with_object([]) do |obj1, arr|
-      found = false
+      otr = nil
       other.each do |obj2|
         next unless block.call(obj1) == block.call(obj2)
 
-        arr << [obj1, obj2]
-        found = true
+        otr = obj2
         break
       end
-      arr << [obj1, nil] unless found
+      arr << [obj1, otr]
     end
 
     results.concat((other - results.map(&:last)).zip([]).map(&:reverse))
