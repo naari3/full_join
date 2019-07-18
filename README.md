@@ -1,8 +1,8 @@
 # FullJoin
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/full_join`. To experiment with that code, run `bin/console` for an interactive prompt.
+provides full join for Array
 
-TODO: Delete this and the text above, and describe your gem
+It looks like Array#zip, but detect same value and gather them like a Full Join. 
 
 ## Installation
 
@@ -22,7 +22,44 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+Hoge = Struct.new(:id, keyword_init: true)
+
+array1 = [Hoge.new(id: 1), Hoge.new(id: 2), Hoge.new(id: 3)]
+array2 = [Hoge.new(id: 2), Hoge.new(id: 3), Hoge.new(id: 4)]
+
+array1.full_join(array2) #=> [
+  [#<struct Hoge id=1>, nil]
+  [#<struct Hoge id=2>, #<struct Hoge id=2>]
+  [#<struct Hoge id=3>, #<struct Hoge id=3>]
+  [nil, #<struct Hoge id=4>]
+]
+```
+
+also, like this
+
+```ruby
+Hoge = Struct.new(:id, :name, keyword_init: true)
+Fuga = Struct.new(:id, :name, keyword_init: true)
+
+array1 = [
+  Hoge.new(id: 1, name: "AAA"),
+  Hoge.new(id: 2, name: "BBB"),
+  Hoge.new(id: 3, name: "CCC")
+]
+array2 = [
+  Fuga.new(id: 101, name: "BBB"),
+  Fuga.new(id: 102, name: "CCC"),
+  Fuga.new(id: 103, name: "DDD")
+]
+
+array1.full_join(array2, &:name) #=> [
+  [Hoge.new(id: 1, name: "AAA"), nil],
+  [Hoge.new(id: 2, name: "BBB"), Fuga.new(id: 101, name: "BBB")],
+  [Hoge.new(id: 3, name: "CCC"), Fuga.new(id: 102, name: "CCC")],
+  [nil, Fuga.new(id: 103, name: "DDD")]
+]
+```
 
 ## Development
 
@@ -32,4 +69,4 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/full_join.
+Bug reports and pull requests are welcome on GitHub at https://github.com/naari3/full_join.
