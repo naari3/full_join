@@ -1,2 +1,10 @@
 Metrics/MethodLength:
-  Max: 15
+  Max: 20
+
+
+Metrics/BlockLength:
+  CountComments: false
+  Max: 25
+  ExcludedMethods: []
+  Exclude:
+    - spec/**/*_spec.rb
